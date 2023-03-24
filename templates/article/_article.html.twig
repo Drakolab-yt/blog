@@ -1,0 +1,11 @@
+<article>
+    <h2>
+        {{ article.title|default('Article ' ~ loop.index) }} ({{ article.createdAt|articleDate }})
+    </h2>
+    {% if article.image is defined and article.image is not empty %}
+        <img src="{{ asset(article.image) }}" alt="">
+    {% endif %}
+    <p>
+        {{ article.content }}
+    </p>
+</article>
