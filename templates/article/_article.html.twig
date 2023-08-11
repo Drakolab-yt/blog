@@ -1,0 +1,11 @@
+<h2>
+    {{ loop.revindex }} - <a href="{{ path('article_show', {
+        slug: article.title|slug|lower
+    }) }}">
+        {{ article.title }}
+    </a>
+</h2>
+<span>Publié le {{ article.createdAt | article_date() }}</span>
+<p>
+    {{ article.content }}
+</p>
