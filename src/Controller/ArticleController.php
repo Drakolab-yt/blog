@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Services\DiceRoller;
 use DateTime;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -10,6 +11,10 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route(name: 'article_')]
 class ArticleController extends AbstractController
 {
+    public function __construct(protected DiceRoller $diceRoller)
+    {
+    }
+
     // Page d'accueil du blog, pour afficher les articles
     #[Route('/', name: 'index')]
     public function index(): Response

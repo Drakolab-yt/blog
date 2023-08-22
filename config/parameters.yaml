@@ -1,0 +1,2 @@
+parameters:
+  app.analytics: '%env(APP_ANALYTICS)%'
