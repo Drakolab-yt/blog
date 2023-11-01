@@ -1,13 +1,11 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}
-    Liste des articles
-{% endblock %}
+{% block title %}{{ tag.name }}{% endblock %}
 
 {% block body %}
-    <h1>Liste des articles</h1>
+    <h1>{{ tag.name }}</h1>
 
-    {% for article in articles %}
+    {% for article in tag.articles %}
         {{ include('article/_article.html.twig', { article: article, loop: loop }, with_context = false) }}
     {% endfor %}
 {% endblock %}

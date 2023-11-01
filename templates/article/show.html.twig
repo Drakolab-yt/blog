@@ -1,10 +1,10 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    {{ slug }}
+    {{ include('article/_article.html.twig', { article: article }, with_context = false) }}
 {% endblock %}
 
 {% block title %}
-    {{ slug }}
+    {{ article.title }}
 {% endblock %}
 

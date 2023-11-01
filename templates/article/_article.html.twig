@@ -1,5 +1,5 @@
 <h2>
-    {{ loop.revindex }} - <a href="{{ path('article_show', {
+    {% if loop is defined %}{{ loop.revindex }} - {% endif %}<a href="{{ path('article_show', {
         slug: article.title|slug|lower
     }) }}">
         {{ article.title }}
@@ -7,5 +7,10 @@
 </h2>
 <span>Publié le {{ article.createdAt | article_date() }}</span>
 <p>
-    {{ article.content }}
+    {% for tag in article.tags %}
+        <a href="{{ path('tag_show', {slug: tag.slug}) }}">{{ tag.name|title }}</a>
+    {% endfor %}
+</p>
+<p>
+    {{ article.content|nl2br }}
 </p>
