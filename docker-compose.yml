@@ -1,0 +1,71 @@
+version: '3.9'
+
+services:
+    php:
+        image: blog_php
+        build:
+            context: .
+            target: app_php
+            args:
+                COMPOSER_GITHUB_TOKEN: ${COMPOSER_GITHUB_TOKEN:-}
+        depends_on:
+            - db
+        environment:
+            - PHP_IDE_CONFIG=serverName=docker
+            - HISTFILE=/root/bash_history/.bash_history
+        volumes:
+            - php-socket:/var/run/php
+            - .:/srv/app
+            - bash-history:/root/bash_history
+        extra_hosts:
+            # Ensure that host.docker.internal is correctly defined on Linux
+            - host.docker.internal:host-gateway
+
+    nginx:
+        image: blog_nginx
+        build:
+            context: .
+            target: app_nginx
+        depends_on:
+            - php
+        volumes:
+            - php-socket:/var/run/php
+            - ./public/:/srv/app/public:ro
+        ports:
+            - "8000:80"
+
+    db:
+        image: mariadb:10
+        environment:
+            MYSQL_ROOT_PASSWORD: pass
+            MYSQL_DATABASE: blog
+        volumes:
+            - db-data:/var/lib/mysql
+            - .:/srv
+        ports:
+            - "3306:3306"
+
+    assets:
+        profiles:
+            - node
+        image: node:20-alpine
+        working_dir: /srv/app
+        volumes:
+            - .:/srv/app
+            - npm-cache:/root/.npm/:rw
+        ports:
+            - "8080:8080"
+
+    mailhog:
+        image: mailhog/mailhog
+        logging:
+            driver: 'none'
+        ports:
+            - '8025:8025'
+            - '1025:1025'
+
+volumes:
+    php-socket:
+    db-data:
+    bash-history:
+    npm-cache:
