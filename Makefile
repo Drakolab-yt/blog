@@ -47,7 +47,7 @@ update: build start vendor npm/install npm/dev db/update #translations/pull
 ##
 start: ## Start the docker hub in detached mode (no logs displayed)
 start:
-	$(DOCKER_COMP) up --detach --remove-orphans
+	$(DOCKER_COMP) up --remove-orphans
 .PHONY: start
 
 ci_start:
