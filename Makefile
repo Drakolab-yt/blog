@@ -38,17 +38,22 @@ ci_setup: ci_start vendor npm/install npm/dev db/update #db/fixtures #translatio
 ##     This is the every day command to update the project installation on current sources (after pull or branch switch for ex.)
 ##
 update: ## Same as setup but without destroying things that exist, idem potent
-update: build start vendor npm/install npm/dev db/update #translations/pull
+update: build start.daemon vendor npm/install npm/dev db/update #translations/pull
 .PHONY: update
 
 ##
 ## ✩✩✩ Start the docker hub the way you left it
 ##     make stop, to stop the hub
 ##
-start: ## Start the docker hub in detached mode (no logs displayed)
+start: ## Start the docker hub
 start:
 	$(DOCKER_COMP) up --remove-orphans
 .PHONY: start
+
+start.daemon: ## Start the docker hub in detached mode (no logs displayed)
+start.daemon:
+	$(DOCKER_COMP) up --remove-orphans -d
+.PHONY: start.daemon
 
 ci_start:
 	$(DOCKER_COMP) up --detach --no-build nginx
