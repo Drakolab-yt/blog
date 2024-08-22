@@ -35,7 +35,7 @@ services:
             - "8000:80"
 
     db:
-        image: mariadb:10
+        image: mariadb:10.11.9
         environment:
             MYSQL_ROOT_PASSWORD: pass
             MYSQL_DATABASE: blog

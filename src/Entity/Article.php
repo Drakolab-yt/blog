@@ -19,6 +19,9 @@ class Article
     #[ORM\Column(length: 128, unique: true)]
     private ?string $title = null;
 
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $intro = null;
+
     #[ORM\Column(type: Types::TEXT)]
     private ?string $content = null;
 
@@ -51,6 +54,18 @@ class Article
     public function setTitle(string $title): static
     {
         $this->title = $title;
+
+        return $this;
+    }
+
+    public function getIntro(): ?string
+    {
+        return $this->intro;
+    }
+
+    public function setIntro(?string $intro): static
+    {
+        $this->intro = $intro;
 
         return $this;
     }
