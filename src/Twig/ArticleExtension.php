@@ -2,7 +2,6 @@
 
 namespace App\Twig;
 
-use DateTime;
 use Twig\Environment;
 use Twig\Extension\AbstractExtension;
 use Twig\Extra\Intl\IntlExtension;
@@ -25,7 +24,7 @@ class ArticleExtension extends AbstractExtension
     /**
      * @throws \Twig\Error\RuntimeError
      */
-    public function articleDate(DateTime $dateTime, ?string $dateFormat = 'long', ?string $timeFormat = 'short'): string
+    public function articleDate(\DateTimeInterface $dateTime, ?string $dateFormat = 'long', ?string $timeFormat = 'short'): string
     {
         return $this->intlExtension->formatDateTime($this->environment, $dateTime, dateFormat: $dateFormat, timeFormat: $timeFormat);
     }
