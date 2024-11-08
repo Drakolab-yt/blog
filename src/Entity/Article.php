@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 #[ORM\Entity(repositoryClass: ArticleRepository::class)]
 class Article
@@ -19,6 +20,10 @@ class Article
     #[ORM\Column(length: 128, unique: true)]
     private ?string $title = null;
 
+    #[ORM\Column(length: 128)]
+    #[Gedmo\Slug(fields: ['title'], unique: true)]
+    private ?string $slug = null;
+
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $intro = null;
 
@@ -26,10 +31,11 @@ class Article
     private ?string $content = null;
 
     #[ORM\Column]
+    #[Gedmo\Timestampable(on: 'create')]
     private ?\DateTimeImmutable $createdAt = null;
 
     /** @var Collection<int, Tag> */
-    #[ORM\ManyToMany(targetEntity: Tag::class, inversedBy: 'articles', fetch: 'EAGER')]
+    #[ORM\ManyToMany(targetEntity: Tag::class, inversedBy: 'articles')]
     private Collection $tags;
 
     #[ORM\ManyToOne(inversedBy: 'articles')]
@@ -54,6 +60,18 @@ class Article
     public function setTitle(string $title): static
     {
         $this->title = $title;
+
+        return $this;
+    }
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(string $slug): static
+    {
+        $this->slug = $slug;
 
         return $this;
     }

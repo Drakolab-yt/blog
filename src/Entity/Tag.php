@@ -6,6 +6,7 @@ use App\Repository\TagRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 #[ORM\Entity(repositoryClass: TagRepository::class)]
 class Tag
@@ -21,6 +22,10 @@ class Tag
     /** @var Collection<int, Article> */
     #[ORM\ManyToMany(targetEntity: Article::class, mappedBy: 'tags')]
     private Collection $articles;
+
+    #[ORM\Column(length: 64)]
+    #[Gedmo\Slug(fields: ['title'], unique: true)]
+    private ?string $slug = null;
 
     public function __construct()
     {
@@ -67,6 +72,18 @@ class Tag
         if ($this->articles->removeElement($article)) {
             $article->removeTag($this);
         }
+
+        return $this;
+    }
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(string $slug): static
+    {
+        $this->slug = $slug;
 
         return $this;
     }
