@@ -17,7 +17,7 @@ class ArticleExtension extends AbstractExtension
     public function getFilters(): array
     {
         return [
-            new TwigFilter('article_date', [$this, 'articleDate']),
+            new TwigFilter('article_date', $this->articleDate(...)),
         ];
     }
 

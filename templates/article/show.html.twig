@@ -1,10 +1,9 @@
 {% extends 'base.html.twig' %}
 
-{% block body %}
-    {{ slug }}
-{% endblock %}
-
 {% block title %}
-    {{ slug }}
+    {{ article.title }}
 {% endblock %}
 
+{% block body %}
+    {% include 'article/_article.html.twig' with {article: article} only %}
+{% endblock %}

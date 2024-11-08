@@ -1,11 +1,23 @@
 <h2>
-    {{ loop.revindex }} - <a href="{{ path('article_show', {
-        slug: article.title|slug|lower
-    }) }}">
+    {% if loop is defined %}
+        {{ loop.revindex }} - <a href="{{ path('article_show', {
+            slug: article.slug,
+        }) }}">
+            {{ article.title }}
+        </a>
+    {% else %}
         {{ article.title }}
-    </a>
+    {% endif %}
 </h2>
 <span>Publié le {{ article.createdAt | article_date() }}</span>
+{% if article.tags|length > 0 %}
+    <p>
+        Tags :
+        {% for tag in article.tags %}
+            {{ tag.title }}{% if not loop.last %}, {% endif %}
+        {% endfor %}
+    </p>
+{% endif %}
 <p>
     {{ article.content }}
 </p>
